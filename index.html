@@ -1,3 +1,24 @@
 <head>
-
+    <script src="./library/pixi.min.js"></script>
 </head>
+<body>
+    <script>
+        // Create a Pixi application
+        const app = new PIXI.Application({ width: 800, height: 600 });
+
+        // Add the Pixi canvas to the HTML document
+        document.body.appendChild(app.view);
+
+        // Create a Pixi sprite
+        const sprite = PIXI.Sprite.from('./assets/rat_spritesheet.png');
+        sprite.anchor.set(0.5); // Set the anchor point to the center
+        sprite.x = app.screen.width / 2; // Center the sprite horizontally
+        sprite.y = app.screen.height / 2; // Center the sprite vertically
+        app.stage.addChild(sprite); // Add the sprite to the stage
+
+        // Game loop
+        app.ticker.add(() => {
+            // Update your game logic here
+        });
+    </script>
+</body>
