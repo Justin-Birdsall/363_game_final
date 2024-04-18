@@ -1,24 +1,56 @@
+<!DOCTYPE html><html>
 <head>
-    <script src="./library/pixi.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1.0">
+    <script src="https://pixijs.download/release/pixi.js"></script>
 </head>
 <body>
-    <script>
+    <script type="module">
         // Create a Pixi application
-        const app = new PIXI.Application({ width: 800, height: 600 });
+        //const app = new PIXI.Application({ width: 800, height: 600 });
+        const app = new PIXI.Application();
+        let canvas_width = 800;
+        let canvas_height = 600;
+        await app.init({ width: canvas_width, height: canvas_height });
+        const defaultIcon = 'url(\'./assets/cheshire.png\'), auto';
 
         // Add the Pixi canvas to the HTML document
-        document.body.appendChild(app.view);
+        //document.body.appendChild(app.view);
+        document.body.appendChild(app.canvas);
+        //await PIXI.Assets.load('assets/rat_spritesheet.png');
+        await PIXI.Assets.load('cheshire.png');
+        //let sprite = PIXI.Sprite.from('assets/cheshire.png');
+        let sprite = PIXI.Sprite.from('cheshire.png');
+        //const defaultIcon = cursor;
+        sprite.anchor.set(0.5);
+        app.stage.addChild(sprite);
+        //app.renderer.events.cursorStyles.default = defaultIcon;
 
         // Create a Pixi sprite
-        const sprite = PIXI.Sprite.from('./assets/rat_spritesheet.png');
-        sprite.anchor.set(0.5); // Set the anchor point to the center
+        //const sprite = PIXI.Sprite.from('./assets/rat_spritesheet.png');
+        //sprite.anchor.set(0.5); // Set the anchor point to the center
+        
         sprite.x = app.screen.width / 2; // Center the sprite horizontally
         sprite.y = app.screen.height / 2; // Center the sprite vertically
-        app.stage.addChild(sprite); // Add the sprite to the stage
+        function onAssetsLoaded(loader, resources) {
+            //print to console for test
+            console.log("onAssetsLoaded");
+            // Create a sprite from the sprite sheet
+            const idleFrames = [];
+            for (let i = 1; i <= 4; i++) {
+                idleFrames.push(PIXI.Texture.from(`sprite${i}.png`));
+            }
 
+            const sprite = new PIXI.AnimatedSprite(idleFrames);
+            sprite.anchor.set(0.5); // Set the anchor point to the center
+            sprite.animationSpeed = 0.1; // Set the animation speed
+            sprite.play(); // Start the animation
+            app.stage.addChild(sprite); // Add the sprite to the stage
+        }
         // Game loop
         app.ticker.add(() => {
             // Update your game logic here
         });
     </script>
 </body>
+</html>
